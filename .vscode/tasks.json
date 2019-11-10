@@ -1,0 +1,44 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build",
+            "type": "shell",
+            "command": "cmake",
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceRoot}/build"
+            },
+            "args": [
+                "./.."
+            ],
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceRoot}"
+                ],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
+        },
+        {
+            "label": "Test",
+            "type": "shell",
+            "command": "ctest",
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceRoot}/build"
+            },
+            "args": [
+                "./.."
+            ]
+        }
+    ]
+}
