@@ -1,35 +1,40 @@
-#include <cstdio>
-#include <execinfo.h>
-#include <iostream>
-#include <signal.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include "stdafx.hpp"
+#include <atomic>           // std::atomic
+#include <thread>           // std::thread
+#include "../include/one/stdafx.hpp"
+#include "../include/one/config.hpp"
+#include "../include/one/worker.hpp"
+#include "../include/one/diagnostic.hpp"
+#include "../include/one/io.hpp"
+#include "../include/one/resource.hpp"
 
-/**
- * Handle segfaults and print a backtrace to stderr before exiting
- */
-void shutdown_handler(int sig) {
-    const size_t MAX_BACKTRACE_SIZE = 10;
-    void *array[MAX_BACKTRACE_SIZE];
-    size_t size;
+EventDispatcher g_dispatcher;
+std::atomic<Uuid> g_context;
 
-    // get void*'s for all entries on the stack
-    size = backtrace(array, MAX_BACKTRACE_SIZE);
+int main() {
+    g_dispatcher.registerChannel(CHANNEL_MAIN);
+    Config config;
+    Diagnostic diag;
 
-    // print out all the frames to stderr
-    fprintf(stderr, "Error: signal %d:\n", sig);
-    backtrace_symbols_fd(array, size, STDERR_FILENO);
-    exit(EXIT_FAILURE);
-}
+    // Start the worker thread
+    std::thread w(worker, std::ref(config), std::ref(diag));
+    // Start the io thread
+    std::thread i(io, std::ref(config), std::ref(diag));
 
-int main(int argc, const char** argv) {
-    signal(SIGSEGV, shutdown_handler);
-    // Check for command line parameters
-    if (argc > 1 && std::string(argv[1]) == "-v") {
-        std::cout << VERSION << std::endl;
-        return EXIT_SUCCESS;
-    }
+    Event e;
+    bool running = true;
 
+    do {
+        if (!g_dispatcher.pop(CHANNEL_MAIN, e)) {
+            continue;
+        }
+
+        if (e.type == EventType::QuitRequest) {
+            running = false;
+        }
+        
+    } while (running);
+
+    i.join();
+    w.join();
     return EXIT_SUCCESS;
 } 

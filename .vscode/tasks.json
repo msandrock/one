@@ -4,14 +4,8 @@
         {
             "label": "Build",
             "type": "shell",
-            "command": "cmake",
+            "command": "make",
             "group": "build",
-            "options": {
-                "cwd": "${workspaceRoot}/build"
-            },
-            "args": [
-                "./.."
-            ],
             "problemMatcher": {
                 "owner": "cpp",
                 "fileLocation": [
@@ -27,18 +21,6 @@
                     "message": 5
                 }
             }
-        },
-        {
-            "label": "Test",
-            "type": "shell",
-            "command": "ctest",
-            "group": "build",
-            "options": {
-                "cwd": "${workspaceRoot}/build"
-            },
-            "args": [
-                "./.."
-            ]
         }
     ]
 }

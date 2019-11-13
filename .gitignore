@@ -1,4 +1,6 @@
-build/*
+lib/*
+*.dSYM
+notes.md
 
 # Prerequisites
 *.d
@@ -32,3 +34,4 @@ build/*
 *.exe
 *.out
 *.app
+/one
