@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DIAGNOSTIC_HPP
+#define DIAGNOSTIC_HPP
 #include <cstddef>      // std::size_t
 #include <cstdio>       // snprintf
 #include <iostream>     // std::cout, std::endl
@@ -29,3 +30,5 @@ public:
 
     // timing
 };
+
+#endif

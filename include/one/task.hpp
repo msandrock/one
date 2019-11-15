@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TASK_HPP
+#define TASK_HPP
 
 class TaskRunner;
 
@@ -14,3 +15,5 @@ public:
     virtual void shutdown() {}
     virtual ~Task();
 };
+
+#endif

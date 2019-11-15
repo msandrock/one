@@ -1,7 +1,6 @@
-#include <atomic>           // std::atomic
-#include <thread>           // std::thread
+#include <atomic>
+#include <thread>
 #include "../include/one/stdafx.hpp"
-#include "../include/one/config.hpp"
 #include "../include/one/worker.hpp"
 #include "../include/one/diagnostic.hpp"
 #include "../include/one/io.hpp"
@@ -10,15 +9,20 @@
 EventDispatcher g_dispatcher;
 std::atomic<Uuid> g_context;
 
-int main() {
+int main(int argc, const char** argv) {
+    if (argc < 2) {
+        std::cout << "Please specify a storage folder" << std::endl;
+        return EXIT_FAILURE;
+    }
+
+    std::string storageFolder(argv[1]);
     g_dispatcher.registerChannel(CHANNEL_MAIN);
-    Config config;
     Diagnostic diag;
 
     // Start the worker thread
-    std::thread w(worker, std::ref(config), std::ref(diag));
+    std::thread w(worker, std::ref(storageFolder), std::ref(diag));
     // Start the io thread
-    std::thread i(io, std::ref(config), std::ref(diag));
+    std::thread i(io, std::ref(diag));
 
     Event e;
     bool running = true;

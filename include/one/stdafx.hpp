@@ -1,4 +1,5 @@
-#pragma once
+#ifndef STDAFX_HPP
+#define STDAFX_HPP
 #include <exception>    // std::exception
 #include <string>       // std::string
 
@@ -17,3 +18,5 @@ class Exception : public std::exception {
         return this->message;
     }
 };
+
+#endif

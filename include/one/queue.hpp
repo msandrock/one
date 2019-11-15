@@ -1,4 +1,5 @@
-#pragma once
+#ifndef QUEUE_HPP
+#define QUEUE_HPP
 #include <condition_variable>   // std::condition_variable
 #include <mutex>                // std::mutex, std::lock_guard, std::unique_lock
 #include <queue>                // std::queue
@@ -39,3 +40,5 @@ public:
         return true;
     }
 };
+
+#endif

@@ -7,7 +7,7 @@
 //
 // Io process for asynchronous command processing
 //
-void io(const Config& config, const Diagnostic& diag) {
+void io(const Diagnostic& diag) {
     g_dispatcher.registerChannel(CHANNEL_IO);
 
     DomainSocket domainSocket(&g_dispatcher);

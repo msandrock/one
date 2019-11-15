@@ -1,4 +1,5 @@
-#pragma once
+#ifndef RUNNER_HPP
+#define RUNNER_HPP
 #include "task.hpp"
 #include <memory>
 #include <vector>
@@ -14,3 +15,5 @@ private:
     std::vector<std::unique_ptr<Task>> tasks;
     bool running = true;
 };
+
+#endif

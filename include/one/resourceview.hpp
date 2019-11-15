@@ -1,4 +1,5 @@
-#pragma once
+#ifndef RESOURCEVIEW_HPP
+#define RESOURCEVIEW_HPP
 #include <functional>       // std::function
 #include "diagnostic.hpp"
 #include "resource.hpp"
@@ -21,3 +22,5 @@ private:
     sp_resource root;
     sp_resource walkResources(sp_resource resource, std::function<bool (sp_resource)> callback);
 };
+
+#endif

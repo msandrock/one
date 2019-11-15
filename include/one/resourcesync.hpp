@@ -1,4 +1,5 @@
-#pragma once
+#ifndef RESOURCESYNC_HPP
+#define RESOURCESYNC_HPP
 #include "task.hpp"
 #include "resourcemanager.hpp"
 
@@ -19,3 +20,5 @@ public:
         while(this->resourceManager->sync());
     }
 };
+
+#endif

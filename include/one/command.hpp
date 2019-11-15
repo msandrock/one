@@ -1,4 +1,5 @@
-#pragma once
+#ifndef COMMAND_HPP
+#define COMMAND_HPP
 #include <queue>        // std::queue
 #include <string>       // std::string
 
@@ -27,3 +28,5 @@ struct Command {
 
 void tokenizeCommand(const std::string& rawCommand, std::queue<std::string>& tokens);
 bool parseCommand(const std::string& rawCommand, Command& command);
+
+#endif

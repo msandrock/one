@@ -6,13 +6,13 @@
 #include "../include/one/worker.hpp"
 #include "../include/one/resourcesync.hpp"
 #include "../include/one/eventhandler.hpp"
-#include "../include/one/runner.hpp"
+#include "../include/one/taskrunner.hpp"
 #include "../include/one/resourcemanager.hpp"
 
 //
 // Main worker process for asynchronous resource synchronization
 //
-void worker(const Config& config, const Diagnostic& diag) {
+void worker(const std::string& storageFolder, const Diagnostic& diag) {
     g_dispatcher.registerChannel(CHANNEL_WORKER);
 
     //
@@ -20,7 +20,7 @@ void worker(const Config& config, const Diagnostic& diag) {
     //
 
     // Create the storage engine for the resource manager
-    auto storage = StorageEngineFactory::create(config, diag);
+    auto storage = StorageEngineFactory::create(storageFolder, diag);
     storage->init();
     // Create and initialize the resouce manager 
     ResourceManager resourceManager(std::move(storage), diag);

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef EVENT_HPP
+#define EVENT_HPP
 #include <map>          // std::map
 #include <memory>       // std::shared_ptr
 #include <string>       // std::string
@@ -90,3 +91,5 @@ public:
     void push(const std::string& channel, Event event);
     bool pop(const std::string& channel, Event& event);
 };
+
+#endif

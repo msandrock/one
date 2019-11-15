@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SERIALIZATION_HPP
+#define SERIALIZATION_HPP
 #include "resource.hpp"
 
 //
@@ -21,3 +22,5 @@ public:
     void serialize(const std::string& path, sp_resource resource);
     sp_resource deserialize(const std::string& path);
 };
+
+#endif

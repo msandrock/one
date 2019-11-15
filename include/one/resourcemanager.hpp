@@ -1,4 +1,5 @@
-#pragma once
+#ifndef RESOURCEMANAGER_HPP
+#define RESOURCEMANAGER_HPP
 #include <queue>            // std::queue
 #include "diagnostic.hpp"
 #include "resource.hpp"
@@ -34,3 +35,5 @@ private:
     std::unique_ptr<AbstractStorageEngine> storage;
     const Diagnostic& diag;
 };
+
+#endif

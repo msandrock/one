@@ -1,3 +1,5 @@
+#ifndef EVENTHANDLER_HPP
+#define EVENTHANDLER_HPP
 #include "task.hpp"
 #include "event.hpp" // Event
 
@@ -9,3 +11,5 @@ class EventHandlerTask final : public Task {
         return true;
     }
 };
+
+#endif

@@ -1,5 +1,5 @@
-#pragma once
-#include "config.hpp"
+#ifndef STORAGEENGINE_HPP
+#define STORAGEENGINE_HPP
 #include "diagnostic.hpp"
 #include "serialization.hpp"
 
@@ -53,8 +53,7 @@ private:
 //
 class StorageEngineFactory {
 public:
-    static std::unique_ptr<AbstractStorageEngine> create(const Config& config, const Diagnostic& diag) {
-        std::string storageFolder = config.get("storageDir");
+    static std::unique_ptr<AbstractStorageEngine> create(const std::string& storageFolder, const Diagnostic& diag) {
         auto serializer = std::unique_ptr<AbstractFileResourceSerializer>(new JsonFileResourceSerializer);
 
         return std::unique_ptr<AbstractStorageEngine>(
@@ -62,3 +61,5 @@ public:
         );
     }
 };
+
+#endif

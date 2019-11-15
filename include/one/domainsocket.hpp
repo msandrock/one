@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DOMAINSOCKET_HPP
+#define DOMAINSOCKET_HPP
 #include "event.hpp" // EventDispatcher
 #include <atomic>           // std::atomic
 
@@ -15,3 +16,5 @@ public:
     void run();
     virtual ~DomainSocket();
 };
+
+#endif

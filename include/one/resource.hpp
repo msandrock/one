@@ -1,4 +1,5 @@
-#pragma once
+#ifndef RESOURCE_HPP
+#define RESOURCE_HPP
 #include "stdafx.hpp" // Exception
 #include <algorithm>     // std::equal
 #include <iostream>      // std::ostream
@@ -139,3 +140,5 @@ protected:
 
 sp_resource newResource(const std::string& subject);
 sp_resource newResource(const std::string& subject, const Uuid& uuid);
+
+#endif
