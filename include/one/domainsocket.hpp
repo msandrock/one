@@ -1,10 +1,10 @@
 #ifndef DOMAINSOCKET_HPP
 #define DOMAINSOCKET_HPP
 #include "event.hpp" // EventDispatcher
-#include <atomic>           // std::atomic
+#include <atomic>    // std::atomic
 
 extern std::atomic<Uuid> g_context;
-const char* const SOCKET_NAME = "daimon.sock";
+const char* const SOCKET_NAME = "one.sock";
 
 class DomainSocket {
     int socketFd;

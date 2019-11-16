@@ -21,6 +21,83 @@
                     "message": 5
                 }
             }
+        },
+        {
+            "label": "CMake integration",
+            "type": "shell",
+            "command": "cmake",
+            "group": "test",
+            "options": {
+                "cwd": "${workspaceRoot}/test/integration/build"
+            },
+            "args": [
+                "./.."
+            ]
+        },
+        {
+            "label": "Make integration",
+            "type": "shell",
+            "command": "make",
+            "group": "test",
+            "options": {
+                "cwd": "${workspaceRoot}/test/integration/build"
+            },
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceRoot}"
+                ],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
+        },
+        {
+            "label": "Test integration",
+            "type": "process",
+            "command": "./one_integration",
+            "group": "test",
+            "options": {
+                "cwd": "${workspaceRoot}/test/integration/build/src"
+            }
+        },
+        {
+            "label": "Run integration",
+            "dependsOn": ["Test integration", "Make integration"],
+            "group": "test",
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceRoot}"
+                ],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
+        },
+        {
+            "label": "Test",
+            "type": "shell",
+            "command": "ctest",
+            "group": "test",
+            "options": {
+                "cwd": "${workspaceRoot}/build"
+            },
+            "args": [
+                "./.."
+            ]
         }
     ]
 }

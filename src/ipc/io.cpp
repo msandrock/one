@@ -2,7 +2,7 @@
 #include "../../include/one/domainsocket.hpp"
 
 // Talk to me with
-// nc -U daimon.sock 
+// nc -U one.sock 
 
 //
 // Io process for asynchronous command processing

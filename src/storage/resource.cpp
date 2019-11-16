@@ -6,7 +6,7 @@
 // Creates a new resource entry and returns a shared pointer to it
 //
 sp_resource newResource(const std::string& subject) {
-    auto resource = std::make_shared<Resource>(/* uuid as constructor argument? */);
+    auto resource = std::make_shared<Resource>();
     resource->setSubject(subject);
 
     return resource;

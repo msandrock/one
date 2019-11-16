@@ -2,6 +2,9 @@ lib/*
 *.dSYM
 notes.md
 
+test/integration/build
+test/integration/data
+
 # Prerequisites
 *.d
 
