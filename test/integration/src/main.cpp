@@ -69,26 +69,31 @@ int main(int argc, const char** argv) {
     addr.sun_family = AF_UNIX;
     strncpy(addr.sun_path, socketPath.c_str(), sizeof(addr.sun_path)-1);
 
-    std::cout << "Connecting to " << addr.sun_path << std::endl;
-
     if (connect(fd, (struct sockaddr*)&addr, sizeof(addr)) == -1) {
         perror("connect error");
         exit(-1);
     }
 
+    // Write quit command to server
+    sprintf(buf, "quit\n");
+    std::cout << "Writing \"" << buf << "\"" << std::endl;
+    
+    rc = strlen(buf);
+
+    if (write(fd, buf, rc) != rc) {
+        if (rc > 0) fprintf(stderr, "partial write");
+        else {
+            perror("write error");
+            exit(-1);
+        }
+    } else {
+        std::cout << "Write successful" << std::endl;
+    }
+
     /*while((rc=read(STDIN_FILENO, buf, sizeof(buf))) > 0) {
 
-        if (write(fd, buf, rc) != rc) {
-            if (rc > 0) fprintf(stderr,"partial write");
-            else {
-                perror("write error");
-                exit(-1);
-            }
-        }
+    
     }*/
-
-    // Write quit command to server
-
 
     s.join();
     return EXIT_SUCCESS;

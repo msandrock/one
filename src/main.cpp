@@ -37,6 +37,7 @@ void signal_handler(int sig) {
         shutdown_handler(sig);
     } else if (sig == SIGINT) {
         // Ctrl+c
+        // Sync pending changes to disk
         std::remove("one.sock");
     }
 
