@@ -30,9 +30,6 @@
             "options": {
                 "cwd": "${workspaceRoot}/test/integration/build"
             },
-            "presentation": {
-                "reveal": "never"
-            },
             "args": [
                 "./.."
             ]
