@@ -90,25 +90,39 @@ void send_command(int socket, const std::string& command) {
     }
 }
 
-int main(int argc, const char** argv) {
-    std::cout << "One integration test suite" << std::endl;
+void test_socket_file_is_removed() {
+    std::cout << "#########################" << std::endl;
+    std::cout << __func__ << std::endl;
+    std::cout << "#########################" << std::endl << std::endl;
 
     clear_data();
-
     auto s = run_server();
-
-    //
-    // Connect to socket
-    //
     auto socket = connect_socket();
     send_command(socket, "quit");
     close(socket);
     s.join();
-
     // Check that the socket file is removed
     assert(!fs::exists(socket_path()));
+}
+
+void test_root_file_is_created() {
+    std::cout << "#########################" << std::endl;
+    std::cout << __func__ << std::endl;
+    std::cout << "#########################" << std::endl << std::endl;
+
+    clear_data();
+    auto s = run_server();
+    auto socket = connect_socket();
+    send_command(socket, "quit");
+    close(socket);
+    s.join();
     // Check that the root data file was created
     assert(fs::exists(data_path() / std::string("00000000-0000-0000-0000-000000000000")));
+}
+
+int main(int argc, const char** argv) {
+    test_socket_file_is_removed();
+    test_root_file_is_created();
     
     return EXIT_SUCCESS;
 } 
