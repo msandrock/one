@@ -9,17 +9,15 @@
 
 namespace fs = std::filesystem;
 
-void server() {
-    std::cout << "Running server" << std::endl;
+void server(const std::string& serverCommand, const std::string& dataPath) {
+    std::string command(serverCommand + " " + dataPath);    //  + "& echo $!"
 
-    /*std::string command(serverCommand + " " + dataPath);
-    command += cwd;
-    command += "/data";
-
-    std::cout << command << std::endl;
+    std::cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << std::endl;
+    std::cout << "Running server: " << command << std::endl;
+    std::cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << std::endl << std::endl;
     int status = std::system(command.c_str());
 
-    std::cout << "Server exited with status " << status << std::endl;*/
+    std::cout << "Server exited with status " << status << std::endl;
 }
 
 int main(int argc, const char** argv) {
@@ -37,18 +35,20 @@ int main(int argc, const char** argv) {
         .parent_path()  // integration
         .parent_path(); // test
 
-    auto serverCommand = serverPath += "/one";
-    auto dataPath = integrationPath += "/data/";
-    auto socketPath = serverPath += "/one.sock";
+    auto serverCommand = serverPath / "one";
+    auto dataPath = integrationPath / "data/";
+    auto socketPath = integrationPath / "build" / "src" / std::string("one.sock");
 
     //
     // Start server
     //
 
-    std::thread s(server);
+    std::thread s(server, serverCommand, dataPath);
     // Wait a second for the server to come up
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    std::cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << std::endl;
     std::cout << "Running test suite" << std::endl;
+    std::cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << std::endl << std::endl;
 
     //
     // Connect to socket
@@ -58,6 +58,8 @@ int main(int argc, const char** argv) {
     char buf[100];
     int fd, rc;
 
+    std::cout << "Creating socket" << std::endl;
+
     if ((fd = socket(AF_UNIX, SOCK_STREAM, 0)) == -1) {
         perror("socket error");
         exit(-1);
@@ -66,6 +68,8 @@ int main(int argc, const char** argv) {
     memset(&addr, 0, sizeof(addr));
     addr.sun_family = AF_UNIX;
     strncpy(addr.sun_path, socketPath.c_str(), sizeof(addr.sun_path)-1);
+
+    std::cout << "Connecting to " << addr.sun_path << std::endl;
 
     if (connect(fd, (struct sockaddr*)&addr, sizeof(addr)) == -1) {
         perror("connect error");

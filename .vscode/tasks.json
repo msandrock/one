@@ -30,6 +30,9 @@
             "options": {
                 "cwd": "${workspaceRoot}/test/integration/build"
             },
+            "presentation": {
+                "reveal": "never"
+            },
             "args": [
                 "./.."
             ]
@@ -41,6 +44,10 @@
             "group": "test",
             "options": {
                 "cwd": "${workspaceRoot}/test/integration/build"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
             },
             "problemMatcher": {
                 "owner": "cpp",

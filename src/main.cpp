@@ -1,5 +1,10 @@
 #include <atomic>
 #include <thread>
+#include <execinfo.h>
+#include <filesystem>
+#include <signal.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include "../include/one/stdafx.hpp"
 #include "../include/one/worker.hpp"
 #include "../include/one/diagnostic.hpp"
@@ -9,7 +14,43 @@
 EventDispatcher g_dispatcher;
 std::atomic<Uuid> g_context;
 
+/**
+ * Handle segfaults and print a backtrace to stderr before exiting
+ */
+void shutdown_handler(int sig) {
+    const size_t MAX_BACKTRACE_SIZE = 10;
+    void *array[MAX_BACKTRACE_SIZE];
+    size_t size;
+
+    // get void*'s for all entries on the stack
+    size = backtrace(array, MAX_BACKTRACE_SIZE);
+
+    // print out all the frames to stderr
+    fprintf(stderr, "Error: signal %d:\n", sig);
+    backtrace_symbols_fd(array, size, STDERR_FILENO);
+}
+
+void signal_handler(int sig) {
+    std::cout << "Caught signal " << sig << std::endl;
+
+    if (sig == SIGSEGV) {
+        shutdown_handler(sig);
+    } else if (sig == SIGINT) {
+        // Ctrl+c
+        std::remove("one.sock");
+    }
+
+    exit(EXIT_FAILURE);
+}
+
 int main(int argc, const char** argv) {
+    // Register signal handler
+    struct sigaction sigIntHandler;
+    sigIntHandler.sa_handler = signal_handler;
+    sigemptyset(&sigIntHandler.sa_mask);
+    sigIntHandler.sa_flags = 0;
+    sigaction(SIGINT, &sigIntHandler, NULL);
+
     if (argc < 2) {
         std::cout << "Please specify a storage folder" << std::endl;
         return EXIT_FAILURE;
