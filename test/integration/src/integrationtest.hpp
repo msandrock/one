@@ -16,6 +16,7 @@ void server(const std::string& serverCommand, const std::string& dataPath);
 std::thread run_server();
 int connect_socket();
 void send_command(int socket, const std::string& command);
+std::string read_response(int socket);
 void close_connection(int socket);
 
 #endif

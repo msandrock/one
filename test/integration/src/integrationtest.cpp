@@ -89,6 +89,15 @@ void send_command(int socket, const std::string& command) {
     }
 }
 
+std::string read_response(int socket) {
+    char buffer[1024];
+    int length = read(socket, buffer, 1024);
+    // Terminate the string on \n
+    buffer[length - 1] = '\0';
+
+    return std::string(buffer);
+}
+
 void close_connection(int socket) {
     close(socket);
 }
