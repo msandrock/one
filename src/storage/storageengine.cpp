@@ -28,7 +28,7 @@ std::string FileStorageEngine::uuidToStoragePath(const Uuid& uuid) {
         throw Exception("Storage folder is not set");
     }
     // Concat uri to root folder
-    return this->storageFolder + static_cast<std::string>(uuid);
+    return this->storageFolder + static_cast<std::string>(uuid) + ".json";
 }
 
 //

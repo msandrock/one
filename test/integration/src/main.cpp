@@ -28,7 +28,7 @@ void test_root_file_is_created() {
     close_connection(socket);
     s.join();
     // Check that the root data file was created
-    assert(fs::exists(data_path() / std::string("00000000-0000-0000-0000-000000000000")));
+    assert(fs::exists(data_path() / std::string("00000000-0000-0000-0000-000000000000.json")));
 }
 
 void test_root_node_is_returned() {
