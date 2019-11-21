@@ -45,7 +45,7 @@ void test_root_node_is_returned() {
     close_connection(socket);
     s.join();
     // Check that the root node is returned
-    assert(response == "***root***");
+    assert(response == "*** [00000000-0000-0000-0000-000000000000] root***");
 }
 
 int main(int argc, const char** argv) {

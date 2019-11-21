@@ -90,9 +90,11 @@ void worker(const std::string& storageFolder, const Diagnostic& diag) {
         }
 
         if (e.type == EventType::SetRequest) {
-            std::string subject = e.arguments[0].stringArgument;
+            //std::string subject = e.arguments[0].stringArgument;
             // TODO: Spawn a new task
-            sp_resource resource = resourceManager.findResourceBySubject(subject);
+            //sp_resource resource = resourceManager.findResourceBySubject(subject);
+            Uuid uuid(e.arguments[0].stringArgument);
+            sp_resource resource = resourceManager.findResource(uuid);
 
             if (resource != nullptr) {
                 // Set the new uuid as the current context
@@ -118,7 +120,7 @@ void worker(const std::string& storageFolder, const Diagnostic& diag) {
 //
 std::string createRepresentation(sp_resource resource) {
     std::stringstream ss;
-    ss << "***" << resource->getSubject() << "***" << (resource->getNeedsWrite() ? " (needs write)" : "") << std::endl;
+    ss << "*** [" << resource->getUuid() << "] " << resource->getSubject() << "***" << (resource->getNeedsWrite() ? " (needs write)" : "") << std::endl;
 
     for (const auto relation : *resource) {
         if (relation.resource == nullptr) {
@@ -126,7 +128,7 @@ std::string createRepresentation(sp_resource resource) {
             continue;
         }
 
-        ss << "->" << relation.predicate << "->" << relation.resource->getSubject() << (relation.needsWrite ? " (needs write)" : "") << std::endl;
+        ss << "->" << relation.predicate << "-> [" << relation.resource->getUuid() << "] " << relation.resource->getSubject() << (relation.needsWrite ? " (needs write)" : "") << std::endl;
     }
 
     return ss.str();
