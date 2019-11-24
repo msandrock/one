@@ -26,10 +26,21 @@ sp_resource JsonFileResourceSerializer::deserialize(const std::string& path) {
     json j;
     file >> j;
 
+    // Check if the resource has a timestamp
+    // if no, set it to the current timestamp
+    int64_t timestamp;
+
+    try {
+        timestamp = j["timestamp"];
+    } catch(nlohmann::detail::type_error e) {
+        // Use current time as timestamp
+        timestamp = duration_cast<seconds>(system_clock::now().time_since_epoch()).count();
+    }
+
     std::string uuid = j["uuid"];
     std::string subject = j["subject"];
 
-    auto resource = newResource(subject, Uuid(uuid));
+    auto resource = makeResource(Uuid(uuid), subject, timestamp);
 
     // Add all relations to the resource
     if (j.find("relations") != j.end()) {
@@ -55,7 +66,8 @@ sp_resource JsonFileResourceSerializer::deserialize(const std::string& path) {
 void to_json(json& j, Resource& resource) {
     j = {
         {"uuid", resource.getUuid()},
-        {"subject", resource.getSubject()}
+        {"subject", resource.getSubject()},
+        {"timestamp", resource.getTimestamp()}
     };
 
     for (const auto relation : resource) {

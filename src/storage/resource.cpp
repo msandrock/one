@@ -2,19 +2,28 @@
 #include <memory>       // std::shared_ptr, std::make_shared
 #include "../../include/one/resource.hpp"
 
+using namespace std::chrono;
+
 //
-// Creates a new resource entry and returns a shared pointer to it
+// Create a new resource and return a shared pointer to it
 //
-sp_resource newResource(const std::string& subject) {
-    auto resource = std::make_shared<Resource>();
-    resource->setSubject(subject);
+
+sp_resource makeRootResource() {
+    Uuid root;
+    int64_t timestamp = duration_cast<seconds>(system_clock::now().time_since_epoch()).count();
+    auto resource = std::make_shared<Resource>(root, "root", timestamp);
 
     return resource;
 }
 
-sp_resource newResource(const std::string& subject, const Uuid& uuid) {
-    auto resource = std::make_shared<Resource>(uuid);
-    resource->setSubject(subject);
+sp_resource makeResource(const std::string& subject) {
+    auto resource = std::make_shared<Resource>(subject);
+
+    return resource;
+}
+
+sp_resource makeResource(const Uuid& uuid, const std::string& subject, int64_t timestamp) {
+    auto resource = std::make_shared<Resource>(uuid, subject, timestamp);
 
     return resource;
 }

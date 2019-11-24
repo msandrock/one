@@ -2,11 +2,14 @@
 #define RESOURCE_HPP
 #include "stdafx.hpp" // Exception
 #include <algorithm>     // std::equal
+#include <chrono>        // std::chrono::system_clock
 #include <iostream>      // std::ostream
 #include <string>        // std::string
 #include <tuple>         // std::tuple
 #include <vector>        // std::vector
 #include <uuid/uuid.h>   // uuid_generate, uuid_unparse
+
+using namespace std::chrono;
 
 class Resource;
 class Uuid;
@@ -89,16 +92,24 @@ struct ResourceRelation {
 //
 class Resource {
 public:
-    Resource() : needsWrite(true) /*not from disk*/ {
+    //
+    // New resource with random uuid and current timestamp
+    //
+    Resource(const std::string& subject) 
+        : subject(subject), needsWrite(true) /*not from disk*/ {
         uuid.generate();    // Initialize with a new uuid
+        timestamp = duration_cast<seconds>(system_clock::now().time_since_epoch()).count();      // Initialize with current timestamp
     }
-    Resource(Uuid uuid) : uuid(uuid), needsWrite(false) /*loaded*/ {
+    //
+    // New resource with specific props
+    //
+    Resource(Uuid uuid, const std::string& subject, int64_t timestamp) 
+        : uuid(uuid), subject(subject), timestamp(timestamp), needsWrite(false) /*loaded*/ {
     }
 
     Uuid getUuid() const { return uuid; }
-
     std::string getSubject() const { return subject; }
-    void setSubject(const std::string& subject) { this->subject = subject; }
+    int64_t getTimestamp() const { return timestamp; }
 
     // Iterator support for relations
     std::__wrap_iter<ResourceRelation*> begin() { return this->relations.begin(); }
@@ -135,10 +146,12 @@ protected:
     Uuid uuid;
     std::string subject;
     std::vector<ResourceRelation> relations;
+    int64_t timestamp;
     bool needsWrite;
 };
 
-sp_resource newResource(const std::string& subject);
-sp_resource newResource(const std::string& subject, const Uuid& uuid);
+sp_resource makeRootResource();
+sp_resource makeResource(const std::string& subject);
+sp_resource makeResource(const Uuid& uuid, const std::string& subject, int64_t ts);
 
 #endif

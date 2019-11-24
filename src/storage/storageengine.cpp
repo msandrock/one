@@ -107,7 +107,7 @@ void FileStorageEngine::init() {
     Uuid root;
 
     if (!this->resourceFileExists(root)) {
-        this->storeResource(newResource("root", root));
+        this->storeResource(makeRootResource());
     }
 }
 

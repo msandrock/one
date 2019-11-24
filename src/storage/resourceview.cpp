@@ -11,9 +11,7 @@ ResourceView::ResourceView(const Diagnostic& diag) : diag(diag), root(nullptr) {
 //
 void ResourceView::init() {
     // Initialize with a fresh root resource
-    Uuid rootUuid;
-    std::string rootSubject = "root";
-    this->root = newResource(rootSubject, rootUuid);
+    this->root = makeRootResource();
 }
 
 //

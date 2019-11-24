@@ -120,7 +120,7 @@ bool ResourceManager::processWriterQueue(const Uuid& uuid) {
 // Creates a new resource and connects it to the given resource
 //
 void ResourceManager::addRelation(sp_resource resource, std::string predicate, std::string object) {
-    auto relatedResource = newResource(object);
+    auto relatedResource = makeResource(object);
     ResourceRelation rel {
         predicate,
         relatedResource->getUuid(),
