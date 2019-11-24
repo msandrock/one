@@ -49,7 +49,7 @@ void test_root_node_is_returned() {
 }
 
 int main(int argc, const char** argv) {
-    test_socket_file_is_removed();
+    //test_socket_file_is_removed();
     test_root_file_is_created();
     test_root_node_is_returned();
     

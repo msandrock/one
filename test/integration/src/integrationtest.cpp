@@ -5,6 +5,8 @@
 #include <thread>
 #include <sys/socket.h>
 #include <sys/un.h>
+#include <netinet/in.h>
+#include <netdb.h> 
 #include <unistd.h>
 
 namespace fs = std::filesystem;
@@ -52,7 +54,7 @@ std::thread run_server() {
     return s;
 }
 
-int connect_socket() {
+int connect_domain_socket() {
     struct sockaddr_un addr;
     int fd;
 
@@ -67,6 +69,35 @@ int connect_socket() {
 
     if (connect(fd, (struct sockaddr*)&addr, sizeof(addr)) == -1) {
         perror("connect error");
+        exit(-1);
+    }
+
+    return fd;
+}
+
+int connect_socket() {
+    struct sockaddr_in addr;
+    hostent* server;
+    int fd;
+
+    fd = socket(AF_INET, SOCK_STREAM, 0);
+
+    if (fd < 0) { 
+        perror("ERROR opening socket");
+    }
+
+    server = gethostbyname("localhost");
+
+    bzero((char*)&addr, sizeof(addr));
+    addr.sin_family = AF_INET;
+    bcopy((char*)server->h_addr, 
+         (char*)&addr.sin_addr.s_addr,
+         server->h_length);
+
+    addr.sin_port = htons(9999);
+
+    if(connect(fd, (sockaddr*)&addr, sizeof(addr)) < 0) {
+        perror("socket error");
         exit(-1);
     }
 
