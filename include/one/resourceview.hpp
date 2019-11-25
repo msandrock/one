@@ -16,6 +16,7 @@ public:
     void addRelation(const Uuid& parentUuid, const ResourceRelation& relation);
     sp_resource findResource(const Uuid& uuid);
     sp_resource findResourceBySubject(const std::string& subject);
+    void updateResource(const Uuid& uuid, const std::string& property, const std::string& value);
 
 private:
     const Diagnostic& diag;

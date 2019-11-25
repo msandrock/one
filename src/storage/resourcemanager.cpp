@@ -166,3 +166,13 @@ sp_resource ResourceManager::findResource(const Uuid& uuid) {
 sp_resource ResourceManager::findResourceBySubject(const std::string& subject) {
     return this->resourceView.findResourceBySubject(subject);
 }
+
+//
+// Set resource property to new value
+//
+void ResourceManager::updateResource(sp_resource resource, const std::string& property, const std::string& value) {
+    this->resourceView.updateResource(resource->getUuid(), property, value);
+
+    // Enqueue update
+    writerQueue.push(resource->getUuid());
+}

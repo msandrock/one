@@ -67,6 +67,23 @@ sp_resource ResourceView::findResourceBySubject(const std::string& subject) {
 }
 
 //
+// Updates a property value of the resource
+//
+void ResourceView::updateResource(const Uuid& uuid, const std::string& property, const std::string& value) {
+    auto resource = this->findResource(uuid);
+
+    if (resource != nullptr) {
+        if (property == "subject") {
+            resource->setSubject(value);
+        }
+
+        if (property == "timestamp") {
+            // TODO: Parse timestamp and update it
+        }
+    }
+}
+
+//
 // Iterate over all relations in the given seed node
 //
 sp_resource ResourceView::walkResources(

@@ -109,6 +109,7 @@ public:
 
     Uuid getUuid() const { return uuid; }
     std::string getSubject() const { return subject; }
+    void setSubject(const std::string& subject) { this->subject = subject; this->needsWrite = true; }
     int64_t getTimestamp() const { return timestamp; }
 
     // Iterator support for relations

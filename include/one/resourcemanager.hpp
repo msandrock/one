@@ -19,6 +19,7 @@ public:
     void addRelation(sp_resource resource, std::string predicate, sp_resource object);
     sp_resource findResource(const Uuid& uuid);
     sp_resource findResourceBySubject(const std::string& subject);
+    void updateResource(sp_resource resource, const std::string& property, const std::string& value);
     // lockResource() --> ResourceView
     //uri getScope() const;
 

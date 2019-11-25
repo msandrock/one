@@ -36,9 +36,9 @@ bool parseCommand(const std::string& rawCommand, Command& command) {
         std::string arg1 = std::move(commandTokens.front());
         commandTokens.pop();
 
-        if (cmd == "set") {
-            // Set is of the format "set <subject>"
-            command.type = CommandType::Set;
+        if (cmd == "jmp") {
+            // Jmp is of the format "jmp <subject>"
+            command.type = CommandType::Jmp;
             command.arguments.push_back(arg1);
             return true;
         }
@@ -55,6 +55,14 @@ bool parseCommand(const std::string& rawCommand, Command& command) {
         if (cmd == "add") {
             // Add is of the format "add <predicate> <object>"
             command.type = CommandType::Add;
+            command.arguments.push_back(arg1);
+            command.arguments.push_back(arg2);
+            return true;
+        }
+
+        if (cmd == "set") {
+            // Set is of the format "set <property> <value>"
+            command.type = CommandType::Set;
             command.arguments.push_back(arg1);
             command.arguments.push_back(arg2);
             return true;

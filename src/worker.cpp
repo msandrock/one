@@ -89,20 +89,23 @@ void worker(const std::string& storageFolder, const Diagnostic& diag) {
             }
         }
 
-        /*if (e.type == EventType::UpdateRequest) {
-            Uuid ctx = e.arguments[0].uuidArgument;
-            std::string predicate = e.arguments[1].stringArgument;
-            std::string object = e.arguments[2].stringArgument;
+        if (e.type == EventType::SetRequest) {
+            // set {subject|timestamp} <new_value>
+            Uuid ctx = e.arguments[0].uuidArgument;               // uuid
+            std::string property = e.arguments[1].stringArgument; // property to update
+            std::string value = e.arguments[2].stringArgument;    // new value
             // TODO: Spawn a new task
             sp_resource resource = resourceManager.findResource(ctx);
 
             if (resource != nullptr) {
-                diag.log("Add new node to view (this)->%s->%s", predicate.c_str(), ((std::string)object).c_str());
-                resourceManager.addRelation(resource, predicate, object);
+                //diag.log("Add new node to view (this)->%s->%s", predicate.c_str(), ((std::string)object).c_str());
+                resourceManager.updateResource(resource, property, value);
+            } else {
+                diag.log("Could not find requested context");
             }
-        }*/
+        }
 
-        if (e.type == EventType::SetRequest) {
+        if (e.type == EventType::JmpRequest) {
             //std::string subject = e.arguments[0].stringArgument;
             // TODO: Spawn a new task
             //sp_resource resource = resourceManager.findResourceBySubject(subject);

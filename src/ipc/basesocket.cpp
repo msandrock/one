@@ -58,10 +58,17 @@ bool BaseSocket::handleConnection(int clientFd) {
             addRequest.arguments.push_back(EventArgument(command.arguments[1]));
             this->dispatcher->push(CHANNEL_WORKER, addRequest);
         } else if (command.type == CommandType::Set) {
+            // Dispatch command to worker with subject, property, new value
+            Event addRequest(EventType::SetRequest);
+            addRequest.arguments.push_back(EventArgument(g_context));
+            addRequest.arguments.push_back(EventArgument(command.arguments[0]));
+            addRequest.arguments.push_back(EventArgument(command.arguments[1]));
+            this->dispatcher->push(CHANNEL_WORKER, addRequest);
+        } else if (command.type == CommandType::Jmp) {
             // Dispatch command to worker with new context
-            Event setRequest(EventType::SetRequest);
-            setRequest.arguments.push_back(EventArgument(command.arguments[0]));
-            this->dispatcher->push(CHANNEL_WORKER, setRequest);
+            Event jmpRequest(EventType::JmpRequest);
+            jmpRequest.arguments.push_back(EventArgument(command.arguments[0]));
+            this->dispatcher->push(CHANNEL_WORKER, jmpRequest);
         } else if (command.type == CommandType::Quit) {
             // Post a quit message to the worker thread
             Event quitRequest(EventType::QuitRequest);

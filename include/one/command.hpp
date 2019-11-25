@@ -8,7 +8,8 @@ enum class CommandType : uint8_t {
     Quit,       // Terminates the application
     Get,        // Show relations for the current subject
     Add,        // Add a new relation to the current subject
-    Set         // Set the context to a new subject
+    Set,        // Updates the current subject
+    Jmp         // Set the context to a new subject
 };
 
 struct Command {
