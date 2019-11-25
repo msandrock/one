@@ -16,6 +16,7 @@ enum class EventType : uint8_t {
     QuitRequest,
     GetRequest,
     AddRequest,
+    UpdateRequest,
     SetRequest,
     IoResponse
 };

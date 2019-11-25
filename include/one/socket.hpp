@@ -1,19 +1,16 @@
 #ifndef SOCKET_HPP
 #define SOCKET_HPP
+#include "basesocket.hpp"
 #include "event.hpp" // EventDispatcher
-#include <atomic>    // std::atomic
 
 extern std::atomic<Uuid> g_context;
-const int PORT = 9999;
 
-class Socket {
-    int socketFd;
-    EventDispatcher* const dispatcher;
-protected:
-    bool handleConnection(int clientFd);
+class Socket : public BaseSocket {
 public:
+    static const int IP_PORT;
     Socket(EventDispatcher* const dispatcher);
-    void run();
+    virtual void init();
+    virtual void run();
     virtual ~Socket();
 };
 

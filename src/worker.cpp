@@ -89,6 +89,19 @@ void worker(const std::string& storageFolder, const Diagnostic& diag) {
             }
         }
 
+        /*if (e.type == EventType::UpdateRequest) {
+            Uuid ctx = e.arguments[0].uuidArgument;
+            std::string predicate = e.arguments[1].stringArgument;
+            std::string object = e.arguments[2].stringArgument;
+            // TODO: Spawn a new task
+            sp_resource resource = resourceManager.findResource(ctx);
+
+            if (resource != nullptr) {
+                diag.log("Add new node to view (this)->%s->%s", predicate.c_str(), ((std::string)object).c_str());
+                resourceManager.addRelation(resource, predicate, object);
+            }
+        }*/
+
         if (e.type == EventType::SetRequest) {
             //std::string subject = e.arguments[0].stringArgument;
             // TODO: Spawn a new task

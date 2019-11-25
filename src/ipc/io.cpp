@@ -16,6 +16,7 @@ void io(const Diagnostic& diag) {
     //DomainSocket domainSocket(&g_dispatcher);
     //domainSocket.run();
     Socket socket(&g_dispatcher);
+    socket.init();
     socket.run();
 
     diag.log("Exiting io thread");

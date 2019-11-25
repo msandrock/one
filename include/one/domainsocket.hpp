@@ -1,19 +1,15 @@
 #ifndef DOMAINSOCKET_HPP
 #define DOMAINSOCKET_HPP
+#include "basesocket.hpp"
 #include "event.hpp" // EventDispatcher
-#include <atomic>    // std::atomic
 
-extern std::atomic<Uuid> g_context;
-const char* const SOCKET_NAME = "one.sock";
-
-class DomainSocket {
-    int socketFd;
-    EventDispatcher* const dispatcher;
-protected:
-    bool handleConnection(int clientFd);
+class DomainSocket : public BaseSocket {
 public:
+    static const char* SOCKET_NAME;
+
     DomainSocket(EventDispatcher* const dispatcher);
-    void run();
+    virtual void init();
+    virtual void run();
     virtual ~DomainSocket();
 };
 
