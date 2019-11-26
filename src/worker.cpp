@@ -136,6 +136,11 @@ void worker(const std::string& storageFolder, const Diagnostic& diag) {
 //
 std::string createRepresentation(sp_resource resource) {
     std::stringstream ss;
+
+    //auto timestamp = static_cast<std::time_t>(resource->getTimestamp());
+    //auto timestampFormatted = std::asctime(std::gmtime(&timestamp));
+    //[" << timestampFormatted << "]
+
     ss << "*** [" << resource->getUuid() << "] " << resource->getSubject() << "***" << (resource->getNeedsWrite() ? " (needs write)" : "") << std::endl;
 
     for (const auto relation : *resource) {

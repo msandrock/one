@@ -111,6 +111,7 @@ public:
     std::string getSubject() const { return subject; }
     void setSubject(const std::string& subject) { this->subject = subject; this->needsWrite = true; }
     int64_t getTimestamp() const { return timestamp; }
+    void setTimestamp(int64_t timestamp) { this->timestamp = timestamp; }
 
     // Iterator support for relations
     std::__wrap_iter<ResourceRelation*> begin() { return this->relations.begin(); }

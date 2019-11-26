@@ -78,8 +78,16 @@ void ResourceView::updateResource(const Uuid& uuid, const std::string& property,
         }
 
         if (property == "timestamp") {
-            // TODO: Parse timestamp and update it
+            try {
+                int64_t timestamp = std::stol(value);
+                resource->setTimestamp(timestamp);
+            } catch (Exception e) {
+                // Number coud not be parsed
+                this->diag.log("could not parse timestamp: %s", value.c_str());
+            }
         }
+    } else {
+        this->diag.log("Resource could not be found");
     }
 }
 
